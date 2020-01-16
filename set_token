@@ -1,0 +1,6 @@
+#!/bin/bash
+
+read -sp "Enter DO Access Token" token
+echo
+
+kubectl create secret generic digitalocean-dns --from-literal=access-token=$token

@@ -1,0 +1,64 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: le-staging
+spec:
+  acme:
+    email: certs@timbrook.tech
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource used to store the account's private key.
+      name: le-staging-key
+    solvers:
+      - selector: {}
+        dns01:
+          digitalocean:
+            tokenSecretRef:
+              name: digitalocean-dns
+              key: access-token
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: le-prod
+spec:
+  acme:
+    email: certs@timbrook.tech
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource used to store the account's private key.
+      name: le-prod-key
+    solvers:
+      - selector:
+          dnsNames:
+            - "timbrook.dev"
+            - "*.timbrook.dev"
+        dns01:
+          digitalocean:
+            tokenSecretRef:
+              name: digitalocean-dns
+              key: access-token
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: vault-cert-issuer
+# ---
+# apiVersion: cert-manager.io/v1alpha2
+# kind: Issuer
+# metadata:
+#   name: vault-issuer
+# spec:
+#   vault:
+#     # todo change
+#     path: pki/sign/mtls-cert-manager
+#     # TODO migrate to same cluster and don't use public internet
+#     server: https://vault.timbrook.dev
+#     auth:
+#       kubernetes:
+#         role: mtls-cert-manager
+#         mountPath: /v1/auth/kubernetes
+#         secretRef:
+#           # this is hacky, set after vault-cert-issuer is created :0
+#           name: vault-cert-issuer-token-h755p
+#           key: token
