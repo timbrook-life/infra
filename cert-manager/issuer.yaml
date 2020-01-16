@@ -33,6 +33,12 @@ spec:
           dnsNames:
             - "timbrook.dev"
             - "*.timbrook.dev"
+            - "timbrook.tech"
+            - "*.timbrook.tech"
+            - "timbrook.life"
+            - "*.timbrook.life"
+            - "michaeltimbrook.com"
+            - "*.michaeltimbrook.com"
         dns01:
           digitalocean:
             tokenSecretRef:

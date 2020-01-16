@@ -33,7 +33,7 @@ kind: Deployment
 metadata:
   name: ingress
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ingress
